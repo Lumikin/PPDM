@@ -16,11 +16,13 @@ export default function App() {
     if (email === "" || senha === "") {
       Alert.alert("Atenção, preencha todos os campos");
     } else {
-      Alert.alert("Login realizado", "Bem vindo", +email);
+      Alert.alert("Login realizado", "Bem vindo" +email);
     }
   };
+
+
   return (
-    <view style={styles.conteiner}>
+    <View style={styles.conteiner}>
       <Text style={styles.titulo}> Área do login </Text>
       <TextInput
         placeholder="Digite seu e-mail"
@@ -34,9 +36,38 @@ export default function App() {
         secureTextEntry={true}
         onChangeText={setSenha}
       />
-      
-    </view>
+      <TouchableOpacity style={styles.botao} onPress={realizarLogin}>
+        <Text style={styles.textoBotao}> Entrar </Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  conteiner: {
+    flex: 3,
+    justifyContent: "center",
+    padding: 20,
+  },
+  titulo: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 15,
+    textAlign: "center",
+  },
+  input: {
+    borderBottomWidth: 1,
+    marginBottom: 15,
+    padding: 10,
+  },
+  botao: {
+    backgroundColor: "#81c3e7",
+    padding: 15,
+    borderRadius: 5,
+  },
+  textoBotao: {
+    color: "white",
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+});
