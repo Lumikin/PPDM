@@ -1,3 +1,5 @@
+// ----------------- Feito por Lumiko(Lucas.M) ----------------- //
+
 import React, { useState } from "react";
 import {
   View,
@@ -7,6 +9,7 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
+
 export default function App() {
   // Criar estados - memorias
   const [email, setEmail] = useState("");
@@ -16,10 +19,11 @@ export default function App() {
     if (email === "" || senha === "") {
       Alert.alert("Atenção, preencha todos os campos");
     } else {
-      Alert.alert("Login realizado", "Bem vindo" +email);
+      Alert.alert("Login realizado", "Bem vindo" + email);
     }
   };
 
+  // ----------------- Retornar na interface ----------------- //
 
   return (
     <View style={styles.conteiner}>
@@ -42,6 +46,8 @@ export default function App() {
     </View>
   );
 }
+
+// ----------------- Estlização ----------------- //
 
 const styles = StyleSheet.create({
   conteiner: {
