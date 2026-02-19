@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
+  ImageBackground,
 } from "react-native";
 
 export default function App() {
@@ -26,24 +27,30 @@ export default function App() {
   // ----------------- Retornar na interface ----------------- //
 
   return (
-    <View style={styles.conteiner}>
-      <Text style={styles.titulo}> Área do login </Text>
-      <TextInput
-        placeholder="Digite seu e-mail"
-        style={styles.input}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-      />
-      <TextInput
-        placeholder="Digite a sua senha"
-        style={styles.input}
-        secureTextEntry={true}
-        onChangeText={setSenha}
-      />
-      <TouchableOpacity style={styles.botao} onPress={realizarLogin}>
-        <Text style={styles.textoBotao}> Entrar </Text>
-      </TouchableOpacity>
-    </View>
+    <ImageBackground
+     source={require('./assets/Wallpaper.jpg')} 
+     style={styles.fundo}
+     resizeMode="cover">
+      <View style={styles.conteiner}>
+        <Text style={styles.titulo}> Área do login </Text>
+        <TextInput
+          placeholder="Digite seu e-mail"
+          style={styles.input}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+        />
+        <TextInput
+          placeholder="Digite a sua senha"
+          style={styles.input}
+          secureTextEntry={true}
+          onChangeText={setSenha}
+        />
+        <TouchableOpacity style={styles.botao} onPress={realizarLogin}>
+          <Text style={styles.textoBotao}> Entrar </Text>
+        </TouchableOpacity>
+        <Text style={styles.esqueciSenha}> Esqueci minha senha</Text>
+      </View>
+    </ImageBackground>
   );
 }
 
@@ -51,9 +58,16 @@ export default function App() {
 
 const styles = StyleSheet.create({
   conteiner: {
-    flex: 3,
+    width: "70%",
+    height: "50%",
+    padding: 40,
+    borderRadius: 20,
+    backgroundColor: "#ccc"
+  },
+  fundo: {
+    flex: 1,
     justifyContent: "center",
-    padding: 20,
+    alignItems: "center",
   },
   titulo: {
     fontSize: 24,
@@ -76,4 +90,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
   },
+  esqueciSenha: {
+    textAlign: "center",
+    fontWeight: "bold",
+    paddingTop: "10px",
+    textDecorationLine: "underline",
+  },
 });
+// ----------------- Feito por Lumiko(Lucas.M) ----------------- //
