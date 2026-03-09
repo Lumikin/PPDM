@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+import {} from 'react-native-safe-area-context'
 
 export default function App() {
   return (
@@ -13,6 +14,26 @@ export default function App() {
       <Text>View dentro da View principal</Text>
       <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
       {/* View 3 */}
+      <Text>View dentro da View principal</Text>
+      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
+      <Text>View dentro da View principal</Text>
+      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
+      <Text>View dentro da View principal</Text>
+      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
+      <Text>View dentro da View principal</Text>
+      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
+      <Text>View dentro da View principal</Text>
+      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
+      <Text>View dentro da View principal</Text>
+      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
+      <Text>View dentro da View principal</Text>
+      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
+      <Text>View dentro da View principal</Text>
+      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
+      <Text>View dentro da View principal</Text>
+      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
+      <Text>View dentro da View principal</Text>
+      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
       <Text>View dentro da View principal</Text>
       <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
     </View>
