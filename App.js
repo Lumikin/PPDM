@@ -6,6 +6,8 @@ import {
   ScrollView,
   Image,
   Pressable,
+  Button,
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -30,11 +32,28 @@ export default function App() {
             {
               backgroundColor: pressed ? "red" : "gray",
             },
-            styles.button
+            styles.button,
           ]}
         >
           <Text> Me aperte</Text>
         </Pressable>
+        <View style={styles.separador}> </View>
+        <Button
+          title="Alert 3"
+          color="orange"
+          onPress={() =>
+            Alert.alert("Titulo do Alert", "Esta é a mensagem do Alert", [
+              {
+                text: "Cancelar",
+                onPress: () => console.log("botão cancelar pressionado!"),
+              },
+              {
+                text: "Ok",
+                onPress: () => console.log("botão Ok pressionado!"),
+              },
+            ])
+          }
+        />
       </ScrollView>
     </SafeAreaView>
   );
