@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function App() {
@@ -10,62 +10,11 @@ export default function App() {
           <StatusBar style="auto" />
           <Text>View dentro da View principal</Text>
           <View
-            style={{ width: 300, height: 50, backgroundColor: "pink" }}
+            style={{ width: "95%", height: 50, backgroundColor: "pink" }}
           ></View>
           <View style={styles.separador}> </View>
-          <Text>View dentro da View principal</Text>
-          <View
-            style={{ width: 300, height: 50, backgroundColor: "pink" }}
-          ></View>
-          <Text>View dentro da View principal</Text>
-          <View
-            style={{ width: 300, height: 50, backgroundColor: "pink" }}
-          ></View>
-          <Text>View dentro da View principal</Text>
-          <View
-            style={{ width: 300, height: 50, backgroundColor: "green" }}
-          ></View>
-          <Text>View dentro da View principal</Text>
-          <View
-            style={{ width: 300, height: 50, backgroundColor: "pink" }}
-          ></View>
-          <Text>View dentro da View principal</Text>
-          <View
-            style={{ width: 300, height: 50, backgroundColor: "pink" }}
-          ></View>
-          <Text>View dentro da View principal</Text>
-          <View
-            style={{ width: 300, height: 50, backgroundColor: "pink" }}
-          ></View>
-          <Text>View dentro da View principal</Text>
-          <View
-            style={{ width: 300, height: 50, backgroundColor: "pink" }}
-          ></View>
-          <Text>View dentro da View principal</Text>
-          <View
-            style={{ width: 300, height: 50, backgroundColor: "pink" }}
-          ></View>
-          <Text>View dentro da View principal</Text>
-          <View
-            style={{ width: 300, height: 50, backgroundColor: "pink" }}
-          ></View>
-          <Text>View dentro da View principal</Text>
-          <View
-            style={{ width: 300, height: 50, backgroundColor: "pink" }}
-          ></View>
-          <Text>View dentro da View principal</Text>
-          <View
-            style={{ width: 300, height: 50, backgroundColor: "pink" }}
-          ></View>
-          <Text>View dentro da View principal</Text>
-          <View
-            style={{ width: 300, height: 50, backgroundColor: "pink" }}
-          ></View>
-          <Text>View dentro da View principal</Text>
-          <View
-            style={{ width: 300, height: 50, backgroundColor: "green" }}
-          ></View>
         </View>
+        <Image source={{uri:'https://picsum.photos/200/300'}} style={{ width:"95%", height:200,}}></Image>
       </ScrollView>
     </SafeAreaView>
   );
