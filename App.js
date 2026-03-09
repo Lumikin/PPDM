@@ -1,42 +1,73 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import {} from 'react-native-safe-area-context'
+import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      {/* View 1 */}
-      <Text>View dentro da View principal</Text>
-      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
-      <View style={styles.separador}> </View>
-      {/* View 2 */}
-      <Text>View dentro da View principal</Text>
-      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
-      {/* View 3 */}
-      <Text>View dentro da View principal</Text>
-      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
-      <Text>View dentro da View principal</Text>
-      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
-      <Text>View dentro da View principal</Text>
-      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
-      <Text>View dentro da View principal</Text>
-      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
-      <Text>View dentro da View principal</Text>
-      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
-      <Text>View dentro da View principal</Text>
-      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
-      <Text>View dentro da View principal</Text>
-      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
-      <Text>View dentro da View principal</Text>
-      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
-      <Text>View dentro da View principal</Text>
-      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
-      <Text>View dentro da View principal</Text>
-      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
-      <Text>View dentro da View principal</Text>
-      <View style={{ width: 300, height: 50, backgroundColor: "pink" }}></View>
-    </View>
+    <SafeAreaView style={{ flex: 1, alignItems: "center" }}>
+      <ScrollView style={{ flex: 1, width: "100%" }}>
+        <View style={styles.container}>
+          <StatusBar style="auto" />
+          <Text>View dentro da View principal</Text>
+          <View
+            style={{ width: 300, height: 50, backgroundColor: "pink" }}
+          ></View>
+          <View style={styles.separador}> </View>
+          <Text>View dentro da View principal</Text>
+          <View
+            style={{ width: 300, height: 50, backgroundColor: "pink" }}
+          ></View>
+          <Text>View dentro da View principal</Text>
+          <View
+            style={{ width: 300, height: 50, backgroundColor: "pink" }}
+          ></View>
+          <Text>View dentro da View principal</Text>
+          <View
+            style={{ width: 300, height: 50, backgroundColor: "green" }}
+          ></View>
+          <Text>View dentro da View principal</Text>
+          <View
+            style={{ width: 300, height: 50, backgroundColor: "pink" }}
+          ></View>
+          <Text>View dentro da View principal</Text>
+          <View
+            style={{ width: 300, height: 50, backgroundColor: "pink" }}
+          ></View>
+          <Text>View dentro da View principal</Text>
+          <View
+            style={{ width: 300, height: 50, backgroundColor: "pink" }}
+          ></View>
+          <Text>View dentro da View principal</Text>
+          <View
+            style={{ width: 300, height: 50, backgroundColor: "pink" }}
+          ></View>
+          <Text>View dentro da View principal</Text>
+          <View
+            style={{ width: 300, height: 50, backgroundColor: "pink" }}
+          ></View>
+          <Text>View dentro da View principal</Text>
+          <View
+            style={{ width: 300, height: 50, backgroundColor: "pink" }}
+          ></View>
+          <Text>View dentro da View principal</Text>
+          <View
+            style={{ width: 300, height: 50, backgroundColor: "pink" }}
+          ></View>
+          <Text>View dentro da View principal</Text>
+          <View
+            style={{ width: 300, height: 50, backgroundColor: "pink" }}
+          ></View>
+          <Text>View dentro da View principal</Text>
+          <View
+            style={{ width: 300, height: 50, backgroundColor: "pink" }}
+          ></View>
+          <Text>View dentro da View principal</Text>
+          <View
+            style={{ width: 300, height: 50, backgroundColor: "green" }}
+          ></View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
