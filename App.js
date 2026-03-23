@@ -1,25 +1,30 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { AntDesign, FontAwesome } from "@expo/vector-icons";
+// Importação dos objetos e das paginas
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Home from "./src/pages/Home";
+import Sobre from "./src/pages/Sobre";
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style="auto" />
-      <Text> Trabalhando com icones </Text>
-
-      <FontAwesome name="home" size={32} color="purple"></FontAwesome>
-      <AntDesign.Button name="home"></AntDesign.Button>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{
+            title: "Página Inicial",
+          }}
+        />
+        <Stack.Screen
+          name="Sobre"
+          component={Sobre}
+          options={{
+            title: "Sobre",
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
