@@ -10,10 +10,19 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 
+import { Ionicons } from "@expo/vector-icons";
+
 export default function App() {
   // Criar estados - memorias
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+
+  const [mostrarSenha, setMostrarSenha] = useState(false); // Estado que controla se a senha esta visivel (true): visivel (false): oculta
+  const [modalVisivel, setModalVisivel] = useState(false);
+
+  const [nomeCadastro, setNomeCadastro] = useState("");
+  const [emailCadastro, setEmailCadastro] = useState("");
+  const [senhaCadastro, setSenhaCadastro] = useState("");
 
   const realizarLogin = () => {
     if (email === "" || senha === "") {
@@ -23,6 +32,14 @@ export default function App() {
     }
   };
 
+  const finalizarCadastro = () => {
+    if (nomeCadastro === "" || emailCadastro === "" || senhaCadastro === "") {
+      Alert.alert("Campos não preenchidos!");
+      return;
+    }
+    Alert.alert("Sucesso", "Cadastro realizado!")
+    setModalVisivel(true)
+  };
   // ----------------- Retornar na interface ----------------- //
 
   return (
