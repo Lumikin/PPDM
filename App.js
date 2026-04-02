@@ -1,5 +1,3 @@
-// ----------------- Feito por Lumiko(Lucas.M) ----------------- //
-
 import React, { useState } from "react";
 import {
   View,
@@ -9,6 +7,7 @@ import {
   StyleSheet,
   Alert,
   ImageBackground,
+  KeyboardAvoidingView,
 } from "react-native";
 
 export default function App() {
@@ -28,9 +27,10 @@ export default function App() {
 
   return (
     <ImageBackground
-     source={require('./assets/Wallpaper.jpg')} 
-     style={styles.fundo}
-     resizeMode="cover">
+      source={require("./assets/Wallpaper.jpg")}
+      style={styles.fundo}
+      resizeMode="cover"
+    >
       <View style={styles.conteiner}>
         <Text style={styles.titulo}> Área do login </Text>
         <TextInput
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     height: "50%",
     padding: 40,
     borderRadius: 20,
-    backgroundColor: "#ccc"
+    backgroundColor: "#ccc",
   },
   fundo: {
     flex: 1,
@@ -97,4 +97,3 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline",
   },
 });
-// ----------------- Feito por Lumiko(Lucas.M) ----------------- //
