@@ -1,128 +1,93 @@
+import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import {
-  Image,
-  StyleSheet,
-  Text,
-  ScrollView,
-  View,
-  Button,
-  TextInput,
-} from "react-native";
+import { use } from "react";
+import { StyleSheet, View, FlatList, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Produtos() {
+  const produtos = [
+    {
+      id: 1,
+      nome: "Teclado",
+      precoParc: 120.0,
+      precoAVista: 105.9,
+      caminhoImg: "videocamera.png",
+    },
+    {
+      id: 2,
+      nome: "Mouse",
+      precoParc: 80.0,
+      precoAVista: 73.9,
+      caminhoImg: "videocamera.png",
+    },
+    {
+      id: 3,
+      nome: "Monitor 27",
+      precoParc: 900.0,
+      precoAVista: 849.9,
+      caminhoImg: "videocamera.png",
+    },
+    {
+      id: 4,
+      nome: "Monitor 34 Ultra Wide",
+      precoParc: 2900.0,
+      precoAVista: 2549.9,
+      caminhoImg: "videocamera.png",
+    },
+    {
+      id: 5,
+      nome: "Impressora",
+      precoParc: 1899.0,
+      precoAVista: 1649.9,
+      caminhoImg: "videocamera.png",
+    },
+  ];
+  const navigation = useNavigation();
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#eef3e4" }}>
-      <ScrollView style={{ flex: 1 }}>
-        <View style={styles.container}>
-          <StatusBar style="auto" />
+    <SafeAreaView style={styles.container}>
+      <StatusBar style="auto" />
+      <FlatList
+        contentContainerStyle={{ padding: 15, marginTop: 30 }}
+        data={produtos}
+        key={item => item.id}
+        renderItem={({ item }) => (
+          <view style={styles.card}>
+            <Image source={require("../../../assets/image.png")} />
+            <Text style={styles.nome}>{item.nome}</Text>
+            <View style={styles.precosConteiner}>
+              <Text> Parcelado:</Text>
+              <Text> RS{item.precoParc.toFixed(2)}</Text>
+            </View>
 
-          {/* Produto: Maçã */}
+            <View style={styles.precosConteiner}>
+              <Text> PIX ou Boleto: </Text>
+              <Text> RS{item.precoAVista.toFixed(2)}</Text>
+            </View>
 
-          <Image
-            source={require("../../../assets/Produtos/maca.png")}
-            style={styles.image}
-          />
-          <Text style={styles.titulo}>Maçã</Text>
-          <Text style={styles.descricao}>3,00 R$</Text>
-          <Text style={styles.Pix}>1,50 R$ no Pix</Text>
-          <TextInput
-            style={styles.Quantidade}
-            placeholder="Quantidade"
-            keyboardType="number-pad"
-          />
-          <Button
-            title="Adicionar ao carrinho"
-            onPress={() => alert("Produto adicionado ao carrinho")}
-          />
-
-          <View style={styles.separador} />
-
-          {/* Produto: Alface */}
-
-          <Image
-            source={require("../../../assets/Produtos/alface.png")}
-            style={styles.image}
-          />
-          <Text style={styles.titulo}>Alface</Text>
-          <Text style={styles.descricao}>7,00 R$</Text>
-          <Text style={styles.Pix}>4,00 R$ no Pix</Text>
-          <TextInput
-            style={styles.Quantidade}
-            placeholder="Quantidade"
-            keyboardType="number-pad"
-          />
-          <Button
-            title="Adicionar ao carrinho"
-            onPress={() => alert("Produto adicionado ao carrinho")}
-          />
-
-          <View style={styles.separador} />
-
-          {/* Produto: Cenoura */}
-
-          <Image
-            source={require("../../../assets/Produtos/Cenoura.png")}
-            style={styles.image}
-          />
-          <Text style={styles.titulo}>Cenoura</Text>
-          <Text style={styles.descricao}>5,00 R$</Text>
-          <Text style={styles.Pix}>2,50 R$ no Pix</Text>
-          <TextInput
-            style={styles.Quantidade}
-            placeholder="Quantidade"
-            keyboardType="number-pad"
-          />
-          <Button
-            title="Adicionar ao carrinho"
-            onPress={() => alert("Produto adicionado ao carrinho")}
-          />
-
-          <View style={styles.separador} />
-
-          {/* Produto: Repolho */}
-
-          <Image
-            source={require("../../../assets/Produtos/Repolho.png")}
-            style={styles.image}
-          />
-          <Text style={styles.titulo}>Repolho</Text>
-          <Text style={styles.descricao}>9,00 R$</Text>
-          <Text style={styles.Pix}>4,50 R$ no Pix</Text>
-          <TextInput
-            style={styles.Quantidade}
-            placeholder="Quantidade"
-            keyboardType="number-pad"
-          />
-          <Button
-            title="Adicionar ao carrinho"
-            onPress={() => alert("Produto adicionado ao carrinho")}
-          />
-
-          <View style={styles.separador} />
-
-          {/* Produto: Brócolis */}
-
-          <Image
-            source={require("../../../assets/Produtos/Brocolis.png")}
-            style={styles.image}
-          />
-          <Text style={styles.titulo}>Brócolis</Text>
-          <Text style={styles.descricao}>12,00 R$</Text>
-          <Text style={styles.Pix}>7,00 R$ no Pix</Text>
-          <TextInput
-            style={styles.Quantidade}
-            placeholder="Quantidade"
-            keyboardType="number-pad"
-          />
-          <Button
-            title="Adicionar ao carrinho"
-            onPress={() => alert("Produto adicionado ao carrinho")}
-          />
-
-          <View style={styles.separador} />
-        </View>
-      </ScrollView>
+            <View style={styles.actionConteiner}>
+              <View style={styles.quantidadeConteiner}>
+                <TouchableOpacity
+                  onPress={() => diminuir(item.id)}
+                  style={styles.btnQtd}
+                >
+                  <Text>-</Text>
+                </TouchableOpacity>
+                <Text style={styles.qtd}>{quantidades[item.id] || 1}</Text>
+              </View>
+              <TouchableOpacity
+                onPress={() => aumentar(item.id)}
+                style={styles.btnQtd}
+              >
+                <Text>+</Text>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity style={styles.btnCarrinho}>
+              <Text style={styles.textBtn}> Adicionar </Text>
+            </TouchableOpacity>
+          </view>
+        )}
+      ></FlatList>
+      <View style={styles.separador} />
     </SafeAreaView>
   );
 }
@@ -134,45 +99,14 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 15,
   },
-  image: {
-    width: 200,
-    height: 200,
-    borderRadius: 20,
-    marginBottom: 10,
-  },
-  text: {
-    fontWeight: "bold",
-    fontSize: 14,
-    marginBottom: 5,
-  },
-  Pix: {
-    fontWeight: "bold",
-    color: "green",
-    fontSize: 14,
-    marginBottom: 5,
-  },
-  titulo: {
-    fontWeight: "bold",
-    fontSize: 32,
-    textAlign: "center",
-    marginVertical: 10,
-  },
-  Quantidade: {
-    backgroundColor: "white",
-    borderRadius: 90,
-    margin: 6,
-  },
-  descricao: {
-    fontSize: 16,
-    textAlign: "center",
-    color: "#333",
-    marginBottom: 30,
-  },
-  separador: {
-    marginBottom: 5,
-    marginTop: 5,
-    height: 1,
-    width: "95%",
-    backgroundColor: "#eef3e4",
-  },
+  card: {},
+  imagem: {},
+  nome: {},
+  precosConteiner: {},
+  quantidadeConteiner: {},
+  precoAVista: {},
+  qtd: {},
+  btnQtd: {},
+  textBtn: {},
+  btnCarrinho: {},
 });
