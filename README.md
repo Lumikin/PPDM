@@ -1,2 +1,1 @@
-# PPDM_Examples
-Aqui tem todos os exemplos das aulas de ppdm (programação para dispositiveis móveis)
+# Exemplos - Todas as branch's são aplicações que o professor orientador organizou para exemplos práticos
