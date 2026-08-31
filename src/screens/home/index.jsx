@@ -11,6 +11,11 @@ export default function HomeScreen() {
       discription: "Consulte a localização untilizando o GPS",
       route: "PosicaoGPSScreen",
     },
+    {
+      title: "Rede WIFI",
+      discription: "Rede e status de conexão",
+      route: "RedesWiFiScreen",
+    },
   ];
   return (
     <SafeAreaView style={styles.safeArea}>

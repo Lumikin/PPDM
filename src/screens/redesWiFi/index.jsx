@@ -1,22 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
+import * as Network from "expo-network";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import * as Location from "expo-location";
-import { ActivityIndicator } from "react-native/types_generated/index";
-import { Color } from "react-native/types_generated/Libraries/Animated/AnimatedExports";
-
-// ─── Componente auxiliar InfoRow ──────────────────────────────────────────────
-// Exibe uma linha horizontal com rótulo à esquerda e valor à direita.
-// Usado para cada linha de detalhe de rede (IP, tipo, modo avião...).
+// Linha simples de rótulo/valor usada dentro do card de detalhes
 function InfoRow({ label, value }) {
   return (
     <View style={styles.infoRow}>
       <Text style={styles.infoLabel}>{label}</Text>
-      {/* numberOfLines={2}: permite quebra de linha, mas limita a no máximo 2 linhas */}
-      <Text style={styles.infoValue} numberOfLines={2}>
-        {value}
-      </Text>
+      <Text style={styles.infoValue}>{value}</Text>
     </View>
   );
 }
@@ -26,184 +25,253 @@ export default function RedesWiFiScreen() {
   const [errorMsg, setErrorMsg] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const carregaRede = useCallback(async () => {
+    setLoading(true);
+    setErrorMsg(null);
+
+    try {
+      const stateWifi = await Network.getNetworkStateAsync();
+      let ip = "Indisponivel";
+      let airplane = false;
+
+      try {
+        ip = await Network.getIpAddressAsync();
+      } catch {
+        ip = "Indisponivel";
+      }
+      try {
+        airplane = await Network.isAirplaneModeEnabledAsync();
+      } catch {
+        airplane = false;
+      }
+
+      setInfo({
+        type: stateWifi.type ?? Network.NetworkStateType.UNKNOWN,
+        isConnected: stateWifi.isConnected ?? false,
+        isInternetReachable: stateWifi.isInternetReachable ?? false,
+        isAirplaneMode: airplane,
+        ipAddress: ip,
+      });
+    } catch (error) {
+      setErrorMsg("Não foi possível obter as informações da rede");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Carrega o estado inicial assim que a tela monta
+    carregaRede();
+
+    const subscription = Network.addNetworkStateListener(() => carregaRede());
+
+    return () => subscription.remove();
+  }, [carregaRede]);
+
+  const isWifi = info?.type === Network.NetworkStateType.WIFI;
+  const tipoLabel = info ? (info.type ?? "-") : "-";
+
   return (
-    <View style={[styles.screen, styles.content]}>
-      <Text style={styles.title}>Conexão de Rede</Text>
-      <Text style={styles.subtitle}>
-        Status da coenxão ativa no dispositivo
-      </Text>
-      {loading && !info ? (
-        <View style={styles.loadingBox}>
-          <ActivityIndicator size="large" color="#25883e"></ActivityIndicator>
-          <Text style={styles.loadingText}> Consoltando a Rede.....</Text>
-        </View>
-      ) : errorMsg ? (
-        <View style={[styles.card, styles.errorCard]}>
-          <Text style={styles.errorText}> {errorMsg}</Text>
-        </View>
-      ) : (
-        info &&
-        (<View style={styles.card}>
-          <View style={styles.divider}></View>
-          <InfoRow label="Tipo de conexão" value={tipoLabel} />
-          <InfoRow label="Rede Wifi" value={isWifi ? "Conectado via Wifi" : "Não conectado pelo Wifi" } />
-        </View>)
-      )}
-    </View>
+    <SafeAreaView style={styles.screen} edges={["top"]}>
+      <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+        <Text style={styles.title}>Conexão de Rede</Text>
+        <Text style={styles.subtitle}>
+          Status da conexão ativa no dispositivo
+        </Text>
+
+        {loading && !info ? (
+          <View style={styles.loadingBox}>
+            <ActivityIndicator size="large" color="#25883e" />
+            <Text style={styles.loadingText}>Consultando a rede.....</Text>
+          </View>
+        ) : errorMsg ? (
+          <View style={[styles.card, styles.errorCard]}>
+            <Text style={styles.errorText}>{errorMsg}</Text>
+          </View>
+        ) : (
+          info && (
+            <View style={styles.card}>
+              <View style={styles.statusRow}>
+                <View
+                  style={[
+                    styles.statusDot,
+                    {
+                      backgroundColor: info.isConnected
+                        ? "#25883e"
+                        : "#B12727",
+                    },
+                  ]}
+                />
+                <Text style={styles.statusText}>
+                  {info.isConnected ? "Conectado" : "Sem Conexão"}
+                </Text>
+              </View>
+
+              <View style={styles.divider} />
+
+              <InfoRow label="Tipo de conexão" value={tipoLabel} />
+              <InfoRow
+                label="Rede Wi-Fi"
+                value={
+                  isWifi ? "Conectado via Wi-Fi" : "Não conectado via Wi-Fi"
+                }
+              />
+              <InfoRow
+                label="Internet acessível"
+                value={info.isInternetReachable ? "Sim" : "Não"}
+              />
+              <InfoRow label="Endereço IP" value={info.ipAddress} />
+              <InfoRow
+                label="Modo avião"
+                value={info.isAirplaneMode ? "Ativado" : "Desativado"}
+              />
+            </View>
+          )
+        )}
+
+        <Pressable
+          style={styles.refreshButton}
+          onPress={carregaRede}
+          disabled={loading}
+        >
+          <Text style={styles.refreshText}>
+            {loading ? "Atualizando..." : "Atualizar"}
+          </Text>
+        </Pressable>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 // ─── Estilos ──────────────────────────────────────────────────────────────────
 const styles = StyleSheet.create({
-  // Tela principal: ocupa toda a área e define o fundo cinza-claro
   screen: {
-    flex: 1, // Expande para preencher toda a tela
-    backgroundColor: "#F6F7F8", // Cinza-claro padrão do app
+    flex: 1,
+    backgroundColor: "#F6F7F8",
   },
 
-  // Container do ScrollView: define espaçamento interno e gap entre filhos
   content: {
-    padding: 20, // Espaçamento interno uniforme em todos os lados
-    gap: 16, // Espaço automático de 16px entre cada filho direto
+    padding: 20,
+    gap: 16,
   },
 
-  // Título principal da tela
   title: {
-    fontSize: 26, // Grande para ser o destaque visual
-    fontWeight: "700", // Negrito
-    color: "#18211B", // Verde-escuro quase preto — cor primária de texto
+    fontSize: 26,
+    fontWeight: "700",
+    color: "#18211B",
   },
 
-  // Subtítulo descritivo abaixo do título
   subtitle: {
-    fontSize: 15, // Menor que o título
-    color: "#66706A", // Cinza-esverdeado — texto secundário
-    lineHeight: 22, // Altura de linha para boa legibilidade
-    marginTop: -8, // Margem negativa para aproximar do título (o gap do content já espaça)
+    fontSize: 15,
+    color: "#66706A",
+    lineHeight: 22,
+    marginTop: -8,
   },
 
-  // Container do spinner de carregamento
   loadingBox: {
-    alignItems: "center", // Centraliza o spinner e o texto horizontalmente
-    paddingVertical: 48, // Espaço vertical generoso para o spinner "respirar"
-    gap: 12, // Espaço entre o spinner e o texto abaixo
+    alignItems: "center",
+    paddingVertical: 48,
+    gap: 12,
   },
 
-  // Texto abaixo do spinner
   loadingText: {
-    color: "#66706A", // Cinza — texto de status secundário
+    color: "#66706A",
     fontSize: 15,
   },
 
-  // Card branco com borda — container reutilizado em múltiplos contextos
   card: {
-    backgroundColor: "#FFFFFF", // Fundo branco — contrasta com o fundo cinza da tela
-    borderRadius: 14, // Cantos arredondados — estética moderna
-    padding: 18, // Espaçamento interno uniforme
-    borderWidth: 1, // Borda fina ao redor do card
-    borderColor: "#E4E8E5", // Cinza-claro sutil para a borda
+    backgroundColor: "#FFFFFF",
+    borderRadius: 14,
+    padding: 18,
+    borderWidth: 1,
+    borderColor: "#E4E8E5",
   },
 
-  // Linha do indicador de status (ponto colorido + texto "Conectado")
   statusRow: {
-    flexDirection: "row", // Coloca os filhos em linha horizontal
-    alignItems: "center", // Alinha verticalmente ao centro
-    gap: 10, // Espaço entre o ponto e o texto
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
   },
 
-  // Ponto circular colorido (verde ou vermelho)
   statusDot: {
-    width: 12, // Largura fixa do círculo
-    height: 12, // Altura fixa do círculo
-    borderRadius: 6, // Metade da largura/altura = círculo perfeito
-    // backgroundColor aplicado dinamicamente no JSX
+    width: 12,
+    height: 12,
+    borderRadius: 6,
   },
 
-  // Texto "Conectado" ou "Sem conexão"
   statusText: {
-    fontSize: 18, // Destaque — maior que os textos de detalhe
-    fontWeight: "700", // Negrito
-    color: "#18211B", // Verde-escuro quase preto
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#18211B",
   },
 
-  // Linha separadora horizontal entre status e detalhes
   divider: {
-    height: 1, // Linha de 1px de altura
-    backgroundColor: "#EEF1EF", // Cinza-claro — separador sutil
-    marginVertical: 14, // Espaço acima e abaixo da linha
+    height: 1,
+    backgroundColor: "#EEF1EF",
+    marginVertical: 14,
   },
 
-  // Container de cada linha de detalhe (InfoRow)
   infoRow: {
-    flexDirection: "row", // Rótulo à esquerda, valor à direita
-    justifyContent: "space-between", // Empurra rótulo para esquerda e valor para direita
-    alignItems: "center", // Alinha verticalmente ao centro
-    paddingVertical: 8, // Espaço acima e abaixo de cada linha
-    gap: 12, // Espaço mínimo entre rótulo e valor
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 8,
+    gap: 12,
   },
 
-  // Rótulo da esquerda (ex.: "Tipo de conexão", "Endereço IP")
   infoLabel: {
-    fontSize: 14, // Tamanho padrão de texto de detalhe
-    color: "#66706A", // Cinza-esverdeado — texto secundário
+    fontSize: 14,
+    color: "#66706A",
   },
 
-  // Valor da direita (ex.: "Wi-Fi", "192.168.1.10")
   infoValue: {
     fontSize: 14,
-    fontWeight: "600", // Semi-negrito — destaca o valor em relação ao rótulo
-    color: "#18211B", // Verde-escuro quase preto — texto primário
-    flexShrink: 1, // Permite encolher e quebrar linha se o texto for longo
-    textAlign: "right", // Alinha o texto à direita dentro do seu espaço
+    fontWeight: "600",
+    color: "#18211B",
+    flexShrink: 1,
+    textAlign: "right",
   },
 
-  // Variação do card para estado de erro (fundo e borda avermelhados)
   errorCard: {
-    borderColor: "#F0C9C9", // Borda rosa-avermelhada
-    backgroundColor: "#FCF2F2", // Fundo levemente rosado
+    borderColor: "#F0C9C9",
+    backgroundColor: "#FCF2F2",
   },
 
-  // Texto de erro exibido dentro do errorCard
   errorText: {
-    color: "#B12727", // Vermelho — indica erro
+    color: "#B12727",
     fontSize: 15,
-    textAlign: "center", // Centraliza a mensagem de erro
+    textAlign: "center",
   },
 
-  // Variação do card para nota informativa (fundo verde-claro)
   noteCard: {
-    backgroundColor: "#F1F6F2", // Verde muito claro — tom informativo
-    borderColor: "#D6E6D9", // Borda verde-claro
+    backgroundColor: "#F1F6F2",
+    borderColor: "#D6E6D9",
   },
 
-  // Título da nota informativa
   noteTitle: {
     fontSize: 15,
-    fontWeight: "700", // Negrito para destacar o título da nota
-    color: "#25883E", // Verde principal — reforça o tom informativo
-    marginBottom: 6, // Espaço entre título e texto da nota
+    fontWeight: "700",
+    color: "#25883E",
+    marginBottom: 6,
   },
 
-  // Corpo de texto da nota informativa
   noteText: {
     fontSize: 14,
-    color: "#4C5B50", // Verde-escuro suave — harmônico com o fundo verde-claro
-    lineHeight: 21, // Altura de linha generosa para boa leitura
+    color: "#4C5B50",
+    lineHeight: 21,
   },
 
-  // Botão de atualizar rede — destaque em verde sólido
   refreshButton: {
-    height: 52, // Altura confortável para toque (mínimo recomendado: 44px)
-    borderRadius: 12, // Cantos arredondados
-    backgroundColor: "#25883E", // Verde principal
-    alignItems: "center", // Centraliza o texto horizontalmente
-    justifyContent: "center", // Centraliza o texto verticalmente
+    height: 52,
+    borderRadius: 12,
+    backgroundColor: "#25883E",
+    alignItems: "center",
+    justifyContent: "center",
   },
 
-  // Texto do botão de atualizar
   refreshText: {
-    color: "#FFFFFF", // Branco — contrasta com o fundo verde
-    fontSize: 16, // Tamanho adequado para botão de ação
-    fontWeight: "700", // Negrito — enfatiza a ação
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "700",
   },
 });

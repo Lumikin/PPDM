@@ -17,6 +17,7 @@ export default function PosicaoGPSScreen() {
         const tempLocation = await Location.getCurrentPositionAsync();
         setlocation(tempLocation);
       } catch (e) {
+        console.log(e);
         setErrorMsg("Não foi possível obter a localização.");
       }
     }
