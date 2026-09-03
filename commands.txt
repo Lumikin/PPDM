@@ -1,0 +1,4 @@
+npx i react-dom react-native-web --legacy-peer-deps
+$env:NODE_OPTIONS="--openssl-legacy-provider"
+npx expo install @expo/webpacl-config@^0.17.0
+npx expo start --web -c
