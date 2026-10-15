@@ -1,0 +1,38 @@
+//npx create-expo-app teste_mobile
+//cd teste_mobile
+1º comando: npx expo install jest-expo jest @types/jest
+2º comando: npx expo install @testing-library/react-native --dev
+3º comando: npm install --save-dev test-renderer
+4º comando: npx expo install jest-expo jest @types/jest ts-node @testing-library/react-native --dev
+5º comando: npm install --save-dev jest 
+
+6º comando (para rodar o teste):
+npx jest   ou
+npm test
+
+//extensao para facilitar rodar o teste:
+// jest runner
+
+
+/*modificar o package.json (scripts + jest)
+
+o que modificar:
+escrever: 
+ "test": "jest"
+(dentro da parte "scripts)
+escrever: 
+"jest": {
+    "preset": "jest-expo",
+    "moduleNameMapper": {
+      "\\.css$": "<rootDir>/src/test/styleMock.js",
+      "^@/assets/(.*)$": "<rootDir>/assets/$1"
+    }
+  },
+
+*/
+
+//criar a pasta 'test' dentro da src. Criar um arquivo chamado styleMock.js nela 
+/*O Jest é um framework e executor de testes (test runner), enquanto a React Testing Library (RTL) 
+é uma biblioteca focada em renderizar e simular a interação do usuário com componentes React.
+um é o motor e o outro o simulador*/
+//verificar a documentação do React Native Testing Library no site !!
